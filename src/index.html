@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="app" lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title ng-bind="'App - ' + stateTitle">App</title>
+
+        <meta name="description" content="Accueil Distributeur" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="icon" href="assets/images/favicon.png?v={{buildDate}}" />
+
+        <!-- built vendor.css -->
+        <link rel="stylesheet" href="assets/css/vendor.css?v={{buildDate}}">
+        <!-- built index.css -->
+        <link rel="stylesheet" href="assets/css/index.css?v={{buildDate}}">
+
+        <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <!--[if lt IE 9]>
+        <p class="browserupgrade">Vous utilisez un navigateur dont la version n'est <strong>pas prise en charge</strong>. Veuillez utiliser une version d'Internet Explorer supérieur ou égale à 10 pour profiter pleinement des possibilités du site.</p>
+        <![endif]-->
+
+        <main class="container-global">
+
+            <div id="app-messages"></div>
+
+            <header ui-view="header"
+                    id="header"
+                    class="header container-fluid">
+            </header>
+
+            <section ui-view="content"
+                     page-transition
+                     class="view main-ui-view">
+            </section>
+
+        </main><!-- ./container-global -->
+
+        <script src="assets/js/vendor.min.js?v={{buildDate}}"></script>
+        <!--SRC_JS--><!--SRC_JS_END-->
+        <!--DIST_JS-->
+        <script src="assets/js/index.min.js?v={{buildDate}}"></script>
+        <script src="assets/js/app.min.js?v={{buildDate}}"></script>
+        <!--DIST_JS_END-->
+    </body>
+</html>

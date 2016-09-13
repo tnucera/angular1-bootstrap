@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+// bootstrap
+$icon-font-path: "../fonts/bootstrap/" !default;
+@import
+'../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+
+// font-awesome
+$fa-font-path: "../fonts/font-awesome" !default;
+@import
+'../node_modules/font-awesome/scss/font-awesome';
+
+// ui-select
+@import
+'../node_modules/ui-select/dist/select';
+
+// angular-block-ui
+@import
+'../node_modules/angular-block-ui/dist/angular-block-ui';
+
+// angular-toastr
+@import
+'../node_modules/angular-toastr/dist/angular-toastr';

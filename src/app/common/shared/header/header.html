@@ -1,0 +1,53 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ui-sref="app.home">App</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.home">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        Accueil
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.select">
+                        <i class="fa fa-cube" aria-hidden="true"></i>
+                        ui-select
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li uib-dropdown is-open="status.isopen" ui-sref-active="active">
+                    <a href uib-dropdown-toggle ng-disabled="disabled">
+                        Bonjour {{ headerCtrl.accountService.getUser().display_name }}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem">
+                            <a ui-sref="app.account.profile">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                Mon profil
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li role="menuitem">
+                            <a ui-sref="app.account.logout">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                Se déconnecter
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>

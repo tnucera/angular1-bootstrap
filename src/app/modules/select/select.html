@@ -1,0 +1,18 @@
+<div class="container">
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="form-group">
+            <ui-select ng-model="selectCtrl.service.getModel().album">
+                <ui-select-match placeholder="Album" allow-clear="true">
+                    {{ $select.selected.name }}
+                </ui-select-match>
+                <ui-select-choices refresh="selectCtrl.service.findAlbums($select.search)" refresh-delay="300"
+                                   repeat="album in selectCtrl.service.getData().albums">
+                    <span ng-bind-html="album.name|highlight:$select.search"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </div>
+
+</div>
