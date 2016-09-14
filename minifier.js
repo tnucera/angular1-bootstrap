@@ -1,10 +1,6 @@
 (function () {
     'use strict';
 
-    var compressor = require('node-minify');
-    var colors = require('colors')
-    var conf = require('./conf.js');
-
     var args = process.argv.slice(2);
 
     if (args.length !== 1) {
@@ -14,6 +10,10 @@
         console.log("          node minifier.js src");
         return;
     }
+
+    var compressor = require('node-minify');
+    var colors = require('colors');
+    var conf = require('./conf.js');
 
     var target = args[0];
     var dir = 'dist/assets/js/';
