@@ -28,11 +28,9 @@
             fileOut: fileOut,
             options: ['--compress'],
             callback: function (err, content) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log("Minify done".green + " in " + fileOut);
-                }
+                if (err) return console.error(err);
+
+                console.log("Minify done".green + " in " + fileOut);
             }
         });
     }
