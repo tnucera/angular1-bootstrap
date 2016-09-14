@@ -1,50 +1,47 @@
-var compressor = require('node-minify');
-var colors = require('colors');
-var conf = require('./conf.js');
+(function () {
+    'use strict';
 
-var args = process.argv.slice(2);
+    var compressor = require('node-minify');
+    var colors = require('colors')
+    var conf = require('./conf.js');
 
-if (args.length !== 3) {
-    console.log("ERR!".red + " Usage: node modifier.js [options] target webDir targetDir");
-    console.log("Examples:".yellow + " node minifier.js all dist/ assets/js/");
-    console.log("          node minifier.js vendor dist/ assets/js/");
-    console.log("          node minifier.js app dist/ assets/js/");
-    return;
-}
+    var args = process.argv.slice(2);
 
-var target = args[0];
-var webDir = args[1];
-var targetDir = args[2];
-var completeDir = webDir + targetDir;
+    if (args.length !== 1) {
+        console.log("ERR! ".red + "Usage: node minifier.js [options] target");
+        console.log("Examples: ".yellow + "node minifier.js all");
+        console.log("          node minifier.js vendor");
+        console.log("          node minifier.js src");
+        return;
+    }
 
-function js(name, fileIn) {
-    var jsFile = name + '.min.js';
-    var fileOut = completeDir + jsFile;
+    var target = args[0];
+    var dir = 'dist/assets/js/';
 
-    new compressor.minify({
-        type: 'uglifyjs',
-        fileIn: fileIn,
-        fileOut: fileOut,
-        options: ['--compress'],
-        callback: function (err, content) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("Minify done".green + " in " + fileOut);
+    function js(name, fileIn) {
+        var jsFile = name + '.min.js';
+        var fileOut = dir + jsFile;
+
+        new compressor.minify({
+            type: 'uglifyjs',
+            fileIn: fileIn,
+            fileOut: fileOut,
+            options: ['--compress'],
+            callback: function (err, content) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Minify done".green + " in " + fileOut);
+                }
             }
-        }
-    });
-}
+        });
+    }
 
-if (target === 'all' || target === 'vendor') {
-    // Vendor
-    js('vendor', conf.js.vendor);
-}
+    if (target === 'all' || target === 'vendor') {
+        js('vendor', conf.js.vendor);
+    }
 
-if (target === 'all' || target === 'app') {
-    // App index
-    js('index', 'src/index*.js');
-
-    // App
-    js('app', "src/app/**/!(*.spec).js");
-}
+    if (target === 'all' || target === 'src') {
+        js('src', conf.js.src);
+    }
+})();
