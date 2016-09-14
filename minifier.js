@@ -4,37 +4,47 @@ var conf = require('./conf.js');
 
 var args = process.argv.slice(2);
 
-if (args.length !== 2) {
-    console.log("ERR!".red + " Usage : node modifier.js [all|vendor|app] [folder]");
+if (args.length !== 3) {
+    console.log("ERR!".red + " Usage: node modifier.js [options] target webDir targetDir");
+    console.log("Examples:".yellow + " node minifier.js all dist/ assets/js/");
+    console.log("          node minifier.js vendor dist/ assets/js/");
+    console.log("          node minifier.js app dist/ assets/js/");
     return;
 }
 
+var target = args[0];
+var webDir = args[1];
+var targetDir = args[2];
+var completeDir = webDir + targetDir;
+
 function js(name, fileIn) {
-    var out = args[1] + name + '.min.js';
+    var jsFile = name + '.min.js';
+    var fileOut = completeDir + jsFile;
+
     new compressor.minify({
         type: 'uglifyjs',
         fileIn: fileIn,
-        fileOut: out,
+        fileOut: fileOut,
         options: ['--compress'],
         callback: function (err, content) {
             if (err) {
                 console.log(err);
             } else {
-                console.log("Minify done".green + " in " + out);
+                console.log("Minify done".green + " in " + fileOut);
             }
         }
     });
 }
 
-if (args[0] === 'all' || args[0] === 'vendor') {
+if (target === 'all' || target === 'vendor') {
     // Vendor
     js('vendor', conf.js.vendor);
 }
 
-if (args[0] === 'all' || args[0] === 'app') {
+if (target === 'all' || target === 'app') {
     // App index
-    js('index', 'src/index.js');
+    js('index', 'src/index*.js');
 
     // App
-    js('app', 'src/app/**/*.src.js');
+    js('app', "src/app/**/!(*.spec).js");
 }
