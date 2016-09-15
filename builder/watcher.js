@@ -19,7 +19,7 @@
     }
 
     function exec(filename, command, args) {
-        console.log(("[" + moment().format('HH:mm:ss') + "] ").grey.bold + filename);
+        console.log((("\n[" + moment().format('HH:mm:ss') + "] ").bold + filename).yellow);
         var child = cp.spawn(command, args, {stdio: 'inherit'});
         child.on('close', function (exitCode) {
             if (child.stdout) console.log(child.stdout);
@@ -28,13 +28,17 @@
         });
     }
 
-    watch(['node_modules', 'src'], function (filename) {
-        if (/\.js$/.test(filename) && !/\.spec\.js$/.test(filename)) { // *.js without *.spec.js
+    watch(['src'], function (filename) {
+        if (/\.js$/.test(filename) && !/\.spec\.js$/.test(filename)) {
+            // *.js without *.spec.js
             exec(filename, 'npm', ['run', 'build-dev:inject']);
-        } else if (/\.scss$/.test(filename)) { // *.scss
-            if (/^src\//.test(filename) && !/vendor\.scss$/.test(filename)) { // *.scss in src/ without vendor.scss
+        } else if (/\.scss/.test(filename)) {
+            // *.scss
+            if (!/vendor\.scss$/.test(filename)) {
+                // *.scss without vendor.scss
                 exec(filename, 'npm', ['run', 'build:assets:css:make:compile:index']);
-            } else if (/^node_modules\//.test(filename) || /vendor\.scss$/.test(filename)) { // *.scss in node_modules/ or vendor.scss
+            } else {
+                // vendor.scss
                 exec(filename, 'npm', ['run', 'build:assets:css:make:compile:vendor']);
             }
         }
