@@ -45,4 +45,5 @@
             console.log("Inject done in ".green + fileOut);
         });
     });
+
 })();

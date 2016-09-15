@@ -42,4 +42,5 @@
     if (target === 'all' || target === 'index') {
         js('index', conf.js.index);
     }
+
 })();

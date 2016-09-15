@@ -44,8 +44,9 @@
     "build-dev:inject": "node builder/injector.js",
     "build-dev": "npm run build:clean && npm run build-dev:assets && npm run build-dev:inject",
     "build": "npm run build:clean && npm run build:assets && npm run build:html",
-    "//------------------- Watch -------------------//": "",
-    "watch": "node builder/watcher.js"
+    "//------------------- Dev -------------------//": "",
+    "dev:watch": "node builder/watcher.js",
+    "dev:serve": "node builder/watcher.js serve"
   },
   "author": "",
   "license": "ISC",
@@ -96,6 +97,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "browser-sync": "^2.16.0",
     "node-watch": "^0.4.0"
   }
 }

@@ -52,4 +52,5 @@ module.exports = (function () {
     return {
         js: js
     };
+
 })();
