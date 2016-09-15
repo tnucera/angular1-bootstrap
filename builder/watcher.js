@@ -18,28 +18,50 @@
         });
     }
 
-    function exec(filename, command, args) {
-        console.log((("\n[" + moment().format('HH:mm:ss') + "] ").bold + filename).yellow);
+    function showMessage(message) {
+        console.log((("[" + moment().format('HH:mm:ss') + "] ").bold + message).yellow);
+    }
+
+    function exec(command, args, message) {
+        if (message) showMessage(message);
+
+        console.log("$ ".bold + command + " " + args.join(" "));
+
         var child = cp.spawn(command, args, {stdio: 'inherit'});
         child.on('close', function (exitCode) {
-            if (child.stdout) console.log(child.stdout);
-            if (child.stderr) console.log(child.stderr);
             bs.reload();
         });
+    }
+
+    var execs = {
+        js: function (message) {
+            exec('npm', ['-s', 'run', 'build-dev:inject'], message);
+        },
+        scssIndex: function (message) {
+            exec('npm', ['-s', 'run', 'build:assets:css:make:compile:index'], message);
+        },
+        scssVendor: function (message) {
+            exec('npm', ['-s', 'run', 'build:assets:css:make:compile:vendor'], message);
+        }
+    };
+
+    showMessage("Launching...");
+    for (var i = 0, keys = Object.keys(execs); i < keys.length; i++) {
+        execs[keys[i]]();
     }
 
     watch(['src'], function (filename) {
         if (/\.js$/.test(filename) && !/\.spec\.js$/.test(filename)) {
             // *.js without *.spec.js
-            exec(filename, 'npm', ['run', 'build-dev:inject']);
-        } else if (/\.scss/.test(filename)) {
+            execs.js(filename);
+        } else if (/\.scss$/.test(filename)) {
             // *.scss
             if (!/vendor\.scss$/.test(filename)) {
                 // *.scss without vendor.scss
-                exec(filename, 'npm', ['run', 'build:assets:css:make:compile:index']);
+                execs.scssIndex(filename);
             } else {
                 // vendor.scss
-                exec(filename, 'npm', ['run', 'build:assets:css:make:compile:vendor']);
+                execs.scssVendor(filename);
             }
         }
     });
