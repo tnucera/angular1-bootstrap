@@ -25,8 +25,6 @@
     function exec(command, args, message) {
         if (message) showMessage(message);
 
-        console.log("$ ".bold + command + " " + args.join(" "));
-
         var child = cp.spawn(command, args, {stdio: 'inherit'});
         child.on('close', function (exitCode) {
             bs.reload();
@@ -35,13 +33,13 @@
 
     var execs = {
         js: function (message) {
-            exec('npm', ['-s', 'run', 'build-dev:inject'], message);
+            exec('npm', ['run', 'build-dev:inject'], message);
         },
         scssIndex: function (message) {
-            exec('npm', ['-s', 'run', 'build:assets:css:make:compile:index'], message);
+            exec('npm', ['run', 'build:assets:css:make:compile:index'], message);
         },
         scssVendor: function (message) {
-            exec('npm', ['-s', 'run', 'build:assets:css:make:compile:vendor'], message);
+            exec('npm', ['run', 'build:assets:css:make:compile:vendor'], message);
         }
     };
 
