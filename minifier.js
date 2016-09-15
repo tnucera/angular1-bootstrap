@@ -7,7 +7,7 @@
         console.log("ERR! ".red + "Usage: node minifier.js [options] target");
         console.log("Examples: ".yellow + "node minifier.js all");
         console.log("          node minifier.js vendor");
-        console.log("          node minifier.js src");
+        console.log("          node minifier.js index");
         return;
     }
 
@@ -30,7 +30,7 @@
             callback: function (err, content) {
                 if (err) return console.error(err);
 
-                console.log("Minify done".green + " in " + fileOut);
+                console.log("Minify done in ".green + fileOut);
             }
         });
     }
@@ -39,7 +39,7 @@
         js('vendor', conf.js.vendor);
     }
 
-    if (target === 'all' || target === 'src') {
-        js('src', conf.js.src);
+    if (target === 'all' || target === 'index') {
+        js('index', conf.js.index);
     }
 })();

@@ -43,9 +43,11 @@ var conf = (function () {
         'node_modules/angular-xeditable/dist/js/xeditable.js',                      // xeditable
         'node_modules/angular-file-upload/dist/angular-file-upload.js'              // angular-file-upload
     ];
-    js.index = glob.sync('src/index*.js');
-    js.app = glob.sync('src/app/**/!(*.spec).js');
-    js.src =  js.index.concat(js.app);
+    js.src = {
+        index: glob.sync('src/index*.js'),
+        app: glob.sync('src/app/**/!(*.spec).js')
+    };
+    js.index = js.src.index.concat(js.src.app);
 
     return {
         js: js

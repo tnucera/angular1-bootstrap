@@ -40,7 +40,7 @@
     // Symlink node_modules
     symlinkForce(__dirname + '/node_modules', __dirname + '/dist/node_modules');
     // Symlink src index
-    conf.js.index.forEach(function (element, index, array) {
+    conf.js.src.index.forEach(function (element, index, array) {
         symlinkForce(__dirname + '/' + element, __dirname + '/dist/' + element.substring(4));
     });
     // Symlink src app
@@ -62,7 +62,7 @@
 
             srcJs += eol;
 
-            conf.js.src.forEach(function (element, index, array) {
+            conf.js.index.forEach(function (element, index, array) {
                 srcJs += '<script src="' + element.substring(4) + '?v=' + time + '"></script>' + eol;
             });
 
@@ -72,7 +72,7 @@
 
             fs.writeFile(fileOut, contents);
 
-            console.log("Inject done ".green + "in " + fileOut);
+            console.log("Inject done in ".green + fileOut);
         });
     });
 })();
