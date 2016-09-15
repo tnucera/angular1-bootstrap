@@ -49,6 +49,10 @@
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 2.14.2"
+  },
   "dependencies": {
     "angular": "^1.5.8",
     "angular-animate": "^1.5.8",
@@ -85,15 +89,13 @@
     "ngsticky": "^1.7.12",
     "node-minify": "^1.3.9",
     "node-sass": "^3.9.3",
-    "node-watch": "^0.4.0",
     "replace": "^0.3.0",
     "restangular": "^1.5.2",
     "rimraf": "^2.5.4",
     "ui-select": "^0.19.4",
     "underscore": "^1.8.3"
   },
-  "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 2.14.2"
+  "devDependencies": {
+    "node-watch": "^0.4.0"
   }
 }
