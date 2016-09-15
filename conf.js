@@ -1,4 +1,4 @@
-var conf = (function () {
+module.exports = (function () {
     'use strict';
 
     var glob = require('glob');
@@ -51,7 +51,5 @@ var conf = (function () {
 
     return {
         js: js
-    }
+    };
 })();
-
-module.exports = conf;
