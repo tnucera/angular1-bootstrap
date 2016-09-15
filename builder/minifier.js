@@ -13,7 +13,7 @@
 
     var compressor = require('node-minify');
     var colors = require('colors');
-    var conf = require('./conf.js');
+    var conf = require('../conf.js');
 
     var target = args[0];
     var dir = 'dist/assets/js/';

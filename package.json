@@ -28,7 +28,7 @@
     "build:assets:css": "npm run build:assets:css:clean && npm run build:assets:css:make:compile && npm run build:assets:css:make:cp",
     "//------------------- Build: Assets - Js -------------------//": "",
     "build:assets:js:clean": "rm -rf dist/assets/js/ && mkdir -p dist/assets/js/",
-    "build:assets:js:make": "node minifier.js all",
+    "build:assets:js:make": "node builder/minifier.js all",
     "build:assets:js": "npm run build:assets:js:clean && npm run build:assets:js:make",
     "//------------------- Build: Assets -------------------//": "",
     "build:assets:clean": "rm -rf dist/assets/ && mkdir -p dist/assets/",
@@ -41,11 +41,11 @@
     "build:html:make": "npm run build:html:make:cp && npm run build:html:make:date",
     "build:html": "npm run build:html:clean && npm run build:html:make",
     "//------------------- Build -------------------//": "",
-    "build-dev:inject": "node injector.js",
+    "build-dev:inject": "node builder/injector.js",
     "build-dev": "npm run build:clean && npm run build-dev:assets && npm run build-dev:inject",
     "build": "npm run build:clean && npm run build:assets && npm run build:html",
     "//------------------- Watch -------------------//": "",
-    "watch": "node watcher.js"
+    "watch": "node builder/watcher.js"
   },
   "author": "",
   "license": "ISC",
@@ -91,5 +91,9 @@
     "rimraf": "^2.5.4",
     "ui-select": "^0.19.4",
     "underscore": "^1.8.3"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 2.14.2"
   }
 }

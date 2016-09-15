@@ -5,16 +5,16 @@
     var fse = require('fs-extra');
     var colors = require('colors');
     var symlinker = require('./symlinker.js');
-    var conf = require('./conf.js');
+    var conf = require('../conf.js');
 
     // Symlink node_modules
-    symlinker.overwrite(__dirname + '/node_modules', __dirname + '/dist/node_modules');
+    symlinker.overwrite(__dirname + '/../node_modules', __dirname + '/../dist/node_modules');
     // Symlink src index
     conf.js.src.index.forEach(function (element, index, array) {
-        symlinker.overwrite(__dirname + '/' + element, __dirname + '/dist/' + element.substring(4));
+        symlinker.overwrite(__dirname + '/../' + element, __dirname + '/../dist/' + element.substring(4));
     });
     // Symlink src app
-    symlinker.overwrite(__dirname + '/src/app', __dirname + '/dist/app');
+    symlinker.overwrite(__dirname + '/../src/app', __dirname + '/../dist/app');
 
     // Inject in fileOut
     var fileOut = 'dist/index.html';
