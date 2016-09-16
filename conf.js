@@ -46,10 +46,10 @@ module.exports = (function () {
     ];
     js.src = {
         index: regexSort(glob.sync('src/index!(*.spec).js'), [
-            /module\.js$/ // Declarations des modules en premier
+            /module\.js$/ // Modules declaration in first position
         ]),
         app: regexSort(glob.sync('src/app/**/!(*.spec).js'), [
-            /module\.js$/ // Declarations des modules en premier
+            /module\.js$/ // Modules declaration in first position
         ])
     };
     js.index = js.src.index.concat(js.src.app);
