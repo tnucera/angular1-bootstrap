@@ -98,6 +98,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.16.0",
-    "node-watch": "^0.4.0"
+    "node-watch": "^0.4.0",
+    "regex-sort": "^1.0.0"
   }
 }

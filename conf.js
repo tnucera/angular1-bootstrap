@@ -2,6 +2,7 @@ module.exports = (function () {
     'use strict';
 
     var glob = require('glob');
+    var regexSort = require("regex-sort");
 
     ////////////////////////////////////
     // JS
@@ -44,8 +45,12 @@ module.exports = (function () {
         'node_modules/angular-file-upload/dist/angular-file-upload.js'              // angular-file-upload
     ];
     js.src = {
-        index: glob.sync('src/index*.js'),
-        app: glob.sync('src/app/**/!(*.spec).js')
+        index: regexSort(glob.sync('src/index!(*.spec).js'), [
+            /module\.js$/ // Declarations des modules en premier
+        ]),
+        app: regexSort(glob.sync('src/app/**/!(*.spec).js'), [
+            /module\.js$/ // Declarations des modules en premier
+        ])
     };
     js.index = js.src.index.concat(js.src.app);
 

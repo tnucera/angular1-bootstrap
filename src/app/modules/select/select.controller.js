@@ -8,7 +8,7 @@
     }
 
     angular
-        .module('app.select', [])
+        .module('app.select')
         .config(['$stateProvider', function ($stateProvider) {
             $stateProvider
                 .state('app.select', {
