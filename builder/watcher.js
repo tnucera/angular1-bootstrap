@@ -44,9 +44,9 @@
     };
 
     showMessage("Launching...");
-    for (var i = 0, keys = Object.keys(execs); i < keys.length; i++) {
-        execs[keys[i]]();
-    }
+    Object.keys(execs).forEach(function (key) {
+        execs[key]();
+    });
 
     watch(['src'], function (filename) {
         if (/\.js$/.test(filename) && !/\.spec\.js$/.test(filename)) {
