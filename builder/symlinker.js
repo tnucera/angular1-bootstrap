@@ -4,41 +4,43 @@ module.exports = (function () {
     var fs = require('fs');
     var fse = require('fs-extra');
     var colors = require('colors');
+    var logger = require('./logger.js');
 
-    function create(srcPath, dstPath) {
-        fs.symlink(srcPath, dstPath, function (err) {
-            if (err) return console.error(err);
+    ///////////////////////////////////
+    // Public methods
+    ///////////////////////////////////
 
-            var srcStat = fs.lstatSync(srcPath);
-            var srcType = (srcStat.isDirectory()) ? 'dir' : 'file';
-            console.log("Symlink created ".magenta + dstPath + " -> " + srcPath + " " + srcType.yellow);
-        });
-    }
+    return {
+        overwrite: overwrite
+    };
 
-    function overwrite(srcPath, dstPath) {
+    function overwrite(srcPath, dstPath, callback) {
         try {
             var dstStat = fs.lstatSync(dstPath);
             // If destination file or dir exists and isn't a symlink
             if (!dstStat.isSymbolicLink()) {
-                var dstType = (dstStat.isDirectory()) ? 'Dir' : 'File';
                 // Remove destination file or dir
                 fse.remove(dstPath, function (err) {
-                    if (err) return console.error(err);
+                    if (err) return logger.error(err);
 
-                    console.log((dstType + " removed ").magenta + dstPath);
                     // Create symlink
-                    create(srcPath, dstPath);
+                    create(srcPath, dstPath, callback);
                 });
             }
         } catch (e) {
             // Symlink doesn't exist, so we create it
-            create(srcPath, dstPath);
+            create(srcPath, dstPath, callback);
         }
     }
 
-    return {
-        create: create,
-        overwrite: overwrite
-    };
+    ///////////////////////////////////
+    // Private methods
+    ///////////////////////////////////
+
+    function create(srcPath, dstPath, callback) {
+        fse.ensureSymlink(srcPath, dstPath, function (err) {
+            if (callback) callback(err);
+        });
+    }
 
 })();

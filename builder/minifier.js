@@ -1,46 +1,53 @@
-(function () {
+module.exports = (function () {
     'use strict';
 
-    var args = process.argv.slice(2);
-
-    if (args.length !== 1) {
-        console.log("ERR! ".red + "Usage: node minifier.js [options] target");
-        console.log("Examples: ".yellow + "node minifier.js all");
-        console.log("          node minifier.js vendor");
-        console.log("          node minifier.js index");
-        return;
-    }
-
+    var sass = require('node-sass');
+    var fs = require('fs');
     var compressor = require('node-minify');
     var colors = require('colors');
-    var conf = require('../conf.js');
+    var logger = require('./logger.js');
 
-    var target = args[0];
-    var dir = 'dist/assets/js/';
+    ///////////////////////////////////
+    // Public methods
+    ///////////////////////////////////
 
-    function js(name, fileIn) {
-        var jsFile = name + '.min.js';
-        var fileOut = dir + jsFile;
+    return {
+        scss: scss,
+        js: js
+    };
 
+    function scss(fileIn, fileOut, callback) {
+        sass.render({
+            file: fileIn,
+            outputStyle: 'compressed'
+        }, function (err, result) {
+            if (err) return logger.error(err);
+
+            // No errors during the compilation, write this result on the disk
+            fs.writeFile(fileOut, result.css, function (err) {
+                if (err) return logger.error(err);
+
+                if (callback) callback(fileOut);
+            });
+        });
+    }
+
+    function js(fileIn, fileOut, callback) {
         new compressor.minify({
             type: 'uglifyjs',
             fileIn: fileIn,
             fileOut: fileOut,
             options: ['--compress'],
             callback: function (err, content) {
-                if (err) return console.error(err);
+                if (err) return logger.error(err);
 
-                console.log("Minify done in ".green + fileOut);
+                if (callback) callback(fileOut);
             }
         });
     }
 
-    if (target === 'all' || target === 'vendor') {
-        js('vendor', conf.js.vendor);
-    }
-
-    if (target === 'all' || target === 'index') {
-        js('index', conf.js.index);
-    }
+    ///////////////////////////////////
+    // Private methods
+    ///////////////////////////////////
 
 })();

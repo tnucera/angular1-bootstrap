@@ -2,10 +2,20 @@ module.exports = (function () {
     'use strict';
 
     var glob = require('glob');
-    var regexSort = require("regex-sort");
+    var regexSort = require('regex-sort');
 
     ////////////////////////////////////
-    // JS
+    // Dir
+    ////////////////////////////////////
+    var dir = {
+        root: __dirname,
+        nodeModules: __dirname + '/node_modules',
+        dist: __dirname + '/dist',
+        src: __dirname + '/src'
+    };
+
+    ////////////////////////////////////
+    // Js
     ////////////////////////////////////
     var js = {};
     js.vendor = [
@@ -55,6 +65,7 @@ module.exports = (function () {
     js.index = js.src.index.concat(js.src.app);
 
     return {
+        dir: dir,
         js: js
     };
 

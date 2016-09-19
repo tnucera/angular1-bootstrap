@@ -1,65 +1,78 @@
 (function () {
     'use strict';
 
-    var args = process.argv.slice(2);
-
     var watch = require('node-watch');
     var colors = require('colors');
     var moment = require('moment');
-    var cp = require('child_process');
     var bs = require('browser-sync').create();
+    var conf = require('../conf.js');
+    var logger = require('./logger.js');
+    var injector = require('./injector.js');
+    var builderCss = require('./builder-css.js');
 
-    // First argument = serve
+    var args = process.argv.slice(2);
     if (args[0] && args[0] === 'serve') {
         // Launch browser-sync server
         bs.init({
-            server: __dirname + '/../dist',
+            server: conf.dir.dist,
             ui: false
         });
     }
 
-    function showMessage(message) {
-        console.log((("[" + moment().format('HH:mm:ss') + "] ").bold + message).yellow);
-    }
-
-    function exec(command, args, message) {
-        if (message) showMessage(message);
-
-        var child = cp.spawn(command, args, {stdio: 'inherit'});
-        child.on('close', function (exitCode) {
-            bs.reload();
-        });
-    }
-
     var execs = {
-        js: function (message) {
-            exec('npm', ['run', 'build-dev:inject'], message);
+        js: function (message, callback) {
+            if (message)  logger.logWithTime(message);
+
+            injector.inject(function () {
+                if (callback) callback();
+            });
         },
-        scssIndex: function (message) {
-            exec('npm', ['run', 'build:assets:css:make:compile:index'], message);
+        cssVendor: function (message, callback) {
+            if (message)  logger.logWithTime(message);
+
+            builderCss.buildVendor(function () {
+                if (callback) callback();
+            });
         },
-        scssVendor: function (message) {
-            exec('npm', ['run', 'build:assets:css:make:compile:vendor'], message);
+        cssIndex: function (message, callback) {
+            if (message)  logger.logWithTime(message);
+
+            builderCss.buildIndex(function () {
+                if (callback) callback();
+            });
         }
     };
 
-    showMessage("Launching...");
     Object.keys(execs).forEach(function (key) {
         execs[key]();
     });
 
     watch(['src'], function (filename) {
-        if (/\.js$/.test(filename) && !/\.spec\.js$/.test(filename)) {
-            // *.js without *.spec.js
-            execs.js(filename);
+        var startDate = moment();
+
+        if ((/\.js$/.test(filename) && !/\.spec\.js$/.test(filename)) || /index\.html$/.test(filename)) {
+            // *.js without *.spec.js OR index.html
+            execs.js(filename, function () {
+                logger.logDuration(startDate);
+
+                bs.reload();
+            });
         } else if (/\.scss$/.test(filename)) {
             // *.scss
-            if (!/vendor\.scss$/.test(filename)) {
-                // *.scss without vendor.scss
-                execs.scssIndex(filename);
-            } else {
+            if (/vendor\.scss$/.test(filename)) {
                 // vendor.scss
-                execs.scssVendor(filename);
+                execs.cssVendor(filename, function () {
+                    logger.logDuration(startDate);
+
+                    bs.reload();
+                });
+            } else {
+                // *.scss without vendor.scss
+                execs.cssIndex(filename, function () {
+                    logger.logDuration(startDate);
+
+                    bs.reload();
+                });
             }
         }
     });
