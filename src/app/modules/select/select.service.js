@@ -7,7 +7,9 @@
         .factory('selectService', selectService);
 
     function selectService(Restangular) {
-        ////// variables
+        ///////////////////////////////////
+        // Variables
+        ///////////////////////////////////
 
         var data = {
             albums: []
@@ -16,7 +18,9 @@
             album: null
         };
 
-        ////// public methods
+        ///////////////////////////////////
+        // Public methods
+        ///////////////////////////////////
 
         return {
             getData: getData,
@@ -45,7 +49,10 @@
             }
         }
 
-        ////// private methods
+        ///////////////////////////////////
+        // Private methods
+        ///////////////////////////////////
+
     }
 
 })();

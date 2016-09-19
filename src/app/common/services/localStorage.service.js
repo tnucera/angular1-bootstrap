@@ -7,10 +7,14 @@
         .factory('localStorage', localStorage);
 
     function localStorage($window) {
-        ////// variables
+        ///////////////////////////////////
+        // Variables
+        ///////////////////////////////////
 
 
-        ////// public methods
+        ///////////////////////////////////
+        // Public methods
+        ///////////////////////////////////
 
         return {
             set: set,
@@ -81,7 +85,10 @@
             $window.localStorage.clear();
         }
 
-        ////// private methods
+        ///////////////////////////////////
+        // Private methods
+        ///////////////////////////////////
+
     }
 
 })();

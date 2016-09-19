@@ -7,12 +7,16 @@
         .factory('accountService', accountService);
 
     function accountService(Restangular, localStorage) {
-        ////// variables
+        ///////////////////////////////////
+        // Variables
+        ///////////////////////////////////
 
         var user = null;
         var localStorageKey = 'account';
 
-        ////// public methods
+        ///////////////////////////////////
+        // Public methods
+        ///////////////////////////////////
 
         return {
             getUser: getUser,
@@ -40,7 +44,9 @@
             removeDataInLocalStorage();
         }
 
-        ////// private methods
+        ///////////////////////////////////
+        // Private methods
+        ///////////////////////////////////
 
         function initDataFromLocalStorage() {
             var localStorageData = localStorage.get(localStorageKey);
