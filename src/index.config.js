@@ -7,14 +7,14 @@
         .config(config);
 
     function config($urlRouterProvider, RestangularProvider, toastrConfig, blockUIConfig, ngDialogProvider, uiSelectConfig) {
-        // Ici nous ne chargerons pas toutes les routes seulement le default
+        // Default route
         $urlRouterProvider.otherwise('/accueil');
 
-        /* Restangular Configuration */
+        // Restangular Configuration
         RestangularProvider.setBaseUrl('https://api.spotify.com');
         RestangularProvider.setFullResponse(true);
 
-        /* Toastr Configuration */
+        // Toastr Configuration
         angular.merge(toastrConfig, {
             allowHtml: true,
             autoDismiss: false,
@@ -49,10 +49,10 @@
             hideMethod: 'fadeOut'
         });
 
-        /* BlockUI Configuration */
+        // BlockUI Configuration
         blockUIConfig.message = "Chargement...";
 
-        /* ngDialog (modal / POP IN) Configuration */
+        // ngDialog (modal / POP IN) Configuration
         ngDialogProvider.setDefaults({
             className: 'ngdialog-theme-flat',
             showClose: true,
@@ -60,7 +60,7 @@
             closeByEscape: true
         });
 
-        /* UI select configuration */
+        // UI select configuration
         uiSelectConfig.theme = 'bootstrap';
         uiSelectConfig.closeOnSelect = 'true';
     }
