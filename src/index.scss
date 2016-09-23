@@ -1,9 +1,9 @@
 @charset "UTF-8";
 
-@import
-'app/common/sass/_common';
+// common
+@import 'app/common/sass/_common';
 
-@import
-'app/modules/account/_account.scss',
+// modules
+@import 'app/modules/account/_account.scss',
 'app/modules/home/_home',
 'app/modules/select/_select';
