@@ -20,24 +20,18 @@
     }
 
     var execs = {
-        js: function (message, callback) {
-            if (message)  logger.logWithTime(message);
-
-            injector.inject(function () {
-                if (callback) callback();
-            });
-        },
-        cssVendor: function (message, callback) {
-            if (message)  logger.logWithTime(message);
-
+        cssVendor: function (callback) {
             builderCss.buildVendor(function () {
                 if (callback) callback();
             });
         },
-        cssIndex: function (message, callback) {
-            if (message)  logger.logWithTime(message);
-
+        cssIndex: function (callback) {
             builderCss.buildIndex(function () {
+                if (callback) callback();
+            });
+        },
+        inject: function (callback) {
+            injector.inject(function () {
                 if (callback) callback();
             });
         }
@@ -47,33 +41,32 @@
         execs[key]();
     });
 
+    function callback(startDate) {
+        logger.logDuration(startDate);
+
+        bs.reload();
+    }
+
     watch(['src'], function (filename) {
         var startDate = moment();
 
-        if ((/\.js$/.test(filename) && !/\.spec\.js$/.test(filename)) || /index\.html$/.test(filename)) {
-            // *.js without *.spec.js OR index.html
-            execs.js(filename, function () {
-                logger.logDuration(startDate);
+        logger.logWithTime(filename);
 
-                bs.reload();
+        if (/vendor\.scss$/.test(filename)) {
+            // vendor.scss
+            execs.cssVendor(function () {
+                callback(startDate)
             });
         } else if (/\.scss$/.test(filename)) {
-            // *.scss
-            if (/vendor\.scss$/.test(filename)) {
-                // vendor.scss
-                execs.cssVendor(filename, function () {
-                    logger.logDuration(startDate);
-
-                    bs.reload();
-                });
-            } else {
-                // *.scss without vendor.scss
-                execs.cssIndex(filename, function () {
-                    logger.logDuration(startDate);
-
-                    bs.reload();
-                });
-            }
+            // *.scss without vendor.scss
+            execs.cssIndex(function () {
+                callback(startDate)
+            });
+        } else if (/\.js$/.test(filename) || /\.html$/.test(filename)) {
+            // *.js or *.html
+            execs.inject(function () {
+                callback(startDate)
+            });
         }
     });
 
