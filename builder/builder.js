@@ -1,53 +1,62 @@
 (function () {
     'use strict';
 
-    var fse = require('fs-extra');
-    var colors = require('colors');
+    var program = require('commander');
     var moment = require('moment');
-    var conf = require('../conf.js');
     var logger = require('./logger.js');
+    var cleaner = require('./cleaner.js');
     var builderCss = require('./builder-css.js');
     var builderFonts = require('./builder-fonts.js');
     var builderHtml = require('./builder-html.js');
     var builderImages = require('./builder-images.js');
     var builderJs = require('./builder-js.js');
     var injector = require('./injector.js');
-
-    var args = process.argv.slice(2);
-    if (args.length !== 1) {
-        logger.error("Usage: node builder.js [dev|prod|inject]");
-        return;
-    }
+    var watcher = require('./watcher.js');
 
     var startDate = moment();
     process.on('exit', function () {
         logger.logDuration(startDate);
     });
 
-    function clean() {
-        fse.removeSync(conf.dir.dist);
-        fse.mkdirsSync(conf.dir.dist);
-    }
+    program
+        .command('build')
+        .description("build sources")
+        .option('-d, --dev', "dev environment")
+        .action(function (options) {
+            cleaner.clean();
+            builderFonts.build();
+            builderCss.build();
 
-    switch (args[0]) {
-        case 'dev':
-            clean();
-            builderFonts.build();
-            builderImages.build(true);
-            builderCss.build();
+            if (options.dev) {
+                builderImages.build(true);
+                builderCss.build();
+                injector.inject();
+            } else {
+                builderImages.build();
+                builderJs.build();
+                builderHtml.build();
+            }
+        });
+
+    program
+        .command('inject')
+        .description("inject file references into index.html")
+        .action(function () {
             injector.inject();
-            break;
-        case 'prod':
-            clean();
-            builderFonts.build();
-            builderImages.build();
-            builderCss.build();
-            builderJs.build();
-            builderHtml.build();
-            break;
-        case 'inject':
-            injector.inject();
-            break;
-    }
+        });
+
+    program
+        .command('watch')
+        .description('watch sources')
+        .option('-s, --serve', "launch browser-sync server")
+        .action(function (options) {
+            if (options.serve) {
+                watcher.serve();
+            }
+
+            watcher.watch();
+        });
+
+    program.parse(process.argv);
 
 })();
