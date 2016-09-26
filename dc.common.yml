@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+      args:
+        PROXY:
+        NO_PROXY:
+        TZ:
