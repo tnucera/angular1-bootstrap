@@ -58,7 +58,7 @@ module.exports = (function () {
 
                 fs.writeFile(conf.dir.dist + '/index.html', contents);
 
-                logger.log("Injecting scripts and build date done ".green + conf.dir.dist + '/index.html', logPrefix);
+                logger.log("Injecting file references done ".green + conf.dir.dist + '/index.html', logPrefix);
 
                 if (callback) callback();
             });
