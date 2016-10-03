@@ -29,7 +29,6 @@
 
             if (options.dev) {
                 builderImages.build(true);
-                builderCss.build();
                 injector.inject();
             } else {
                 builderImages.build();
