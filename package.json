@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node builder/builder.js prod",
-    "dev:build": "node builder/builder.js dev",
+    "build": "node builder/builder.js build",
+    "dev:build": "node builder/builder.js build --dev",
     "dev:inject": "node builder/builder.js inject",
-    "dev:watch": "node builder/watcher.js",
-    "dev:serve": "node builder/watcher.js serve"
+    "dev:watch": "node builder/builder.js watch",
+    "dev:serve": "node builder/builder.js watch --serve"
   },
   "author": "",
   "license": "ISC",
