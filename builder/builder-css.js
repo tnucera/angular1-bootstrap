@@ -41,7 +41,7 @@ module.exports = (function () {
         fse.ensureDir(distDir, function (err) {
             if (err) return logger.error(err);
 
-            minifier.scss(conf.dir.src + '/' + name + '.scss', distDir + '/' + name + '.css', function (fileOut) {
+            minifier.scss(conf.dir.src + '/' + name + '.scss', distDir + '/' + name + '.min.css', function (fileOut) {
                 logger.log("Minifying done ".green + fileOut, logPrefix);
 
                 if (callback) callback();

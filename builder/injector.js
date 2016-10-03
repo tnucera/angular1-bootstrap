@@ -52,8 +52,8 @@ module.exports = (function () {
                     srcJs += getHtmlScript(element.substring(4), eol);
                 });
 
-                contents = contents.replace(/(<!--SRC_JS-->)(?:|\n|.)+(<!--SRC_JS_END-->)/g, "$1" + srcJs + "$2");
-                contents = contents.replace(/(<!--DIST_JS-->)(?:|\n|.)+(<!--DIST_JS_END-->)/g, "$1$2");
+                contents = contents.replace(/(<!-- SRC_JS -->)(?:|\n|.)+(<!-- SRC_JS_END -->)/g, "$1" + srcJs + "$2");
+                contents = contents.replace(/(<!-- DIST_JS -->)(?:|\n|.)+(<!-- DIST_JS_END -->)/g, "$1$2");
                 contents = contents.split('{{buildDate}}').join(time);
 
                 fs.writeFile(conf.dir.dist + '/index.html', contents);
