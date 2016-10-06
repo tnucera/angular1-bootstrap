@@ -5,4 +5,7 @@ npm only (dependencies + build)
 
 no bower, no grunt, no gulp...
 
-remain free
+> - symlink for dev
+> - copy for prod
+
+*remain free*
