@@ -2,6 +2,8 @@ FROM debian:8
 
 # Bash color
 ENV TERM xterm
+# Let the container know that there is no tty
+ENV DEBIAN_FRONTEND noninteractive
 
 # Proxy
 ARG PROXY
@@ -19,12 +21,12 @@ RUN apt-get install -y --force-yes net-tools telnet wget htop supervisor unzip x
 
 # Nginx install
 RUN apt-get install -y --force-yes nginx
-RUN groupmod -g 1001 www-data \
-    && usermod -s /bin/bash -u 1001 www-data
-COPY .bashrc /var/www/.bashrc
-RUN chown -R www-data:www-data /var/www/ \
-    && chmod 644 /var/www/.bashrc \
-    && rm -rf /var/www/html/
+ARG GID
+ARG UID
+RUN groupmod -g $GID www-data \
+    && usermod -s /bin/bash -u $UID www-data
+RUN rm -rf /var/www/* \
+    && chown -R www-data:www-data /var/www/
 
 # Node install
 RUN wget -nv http://nodejs.org/dist/v4.5.0/node-v4.5.0-linux-x64.tar.xz -O /tmp/node.tar.xz \
@@ -38,26 +40,27 @@ RUN apt-get clean \
     && rm -rf /tmp/* /var/tmp/*
 
 # Define working directory
-RUN mkdir -p /var/www/project/ \
-    && chown -R www-data:www-data /var/www/project/
-WORKDIR /var/www/project
+WORKDIR /var/www
 
 # Expose Ports
 EXPOSE 8080 3000
 
+# .bashrc conf
+COPY docker/nginx/.bashrc /etc/.bashrc
+RUN cat /etc/.bashrc >> /etc/bash.bashrc
+
 # Nginx conf
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Node conf
-RUN npm completion >> /var/www/.bashrc \
-    && chown www-data:www-data /var/www/.bashrc
+RUN npm completion >> /etc/bash.bashrc
 ENV PATH $PATH:/var/www/node_modules/.bin
 
 # Supervisor conf
 RUN mkdir -p /var/run/supervisor/ \
     && mkdir -p /var/log/supervisor/
-COPY supervisord.conf /etc/supervisord.conf
-COPY supervisord.d/*.conf /etc/supervisord.d/
+COPY docker/nginx/supervisord.conf /etc/supervisord.conf
+COPY docker/nginx/supervisord.d/*.conf /etc/supervisord.d/
 
 # Env args
 ARG TZ

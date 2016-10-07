@@ -3,8 +3,11 @@ version: '2'
 services:
   nginx:
     build:
-      context: docker/nginx
+      context: .
+      dockerfile: docker/nginx/Dockerfile
       args:
-        PROXY:
-        NO_PROXY:
-        TZ:
+        GID: 1001
+        UID: 1001
+        TZ: Europe/Paris
+        PROXY: null
+        NO_PROXY: null
