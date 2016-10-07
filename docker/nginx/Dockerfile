@@ -5,6 +5,10 @@ ENV TERM xterm
 # Let the container know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
+# Env args
+ARG TZ
+ENV TZ $TZ
+
 # Proxy
 ARG PROXY
 ARG NO_PROXY
@@ -61,9 +65,5 @@ RUN mkdir -p /var/run/supervisor/ \
     && mkdir -p /var/log/supervisor/
 COPY docker/nginx/supervisord.conf /etc/supervisord.conf
 COPY docker/nginx/supervisord.d/*.conf /etc/supervisord.d/
-
-# Env args
-ARG TZ
-ENV TZ $TZ
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
