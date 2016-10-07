@@ -16,7 +16,7 @@ npm run dev:serve  # [dev]  watch & serve with browser-sync
 
 **Dev:**
 
-Create *dc.dev.yml* :
+Create *dc.dev.yml*:
 ```
 version: '2'
 
@@ -30,7 +30,7 @@ services:
     ports:
       - '20001:8080'
 ```
-Run these commands :
+Run these commands:
 ```
 docker-compose -f dc.dev.yml up -d
 docker exec -it -u www-data angular1bootstrap_nginx_1 bash
