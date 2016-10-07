@@ -39,6 +39,8 @@ RUN locale \
 
 # Nginx install
 RUN apt-get install -qqy nginx
+
+# User
 ARG GID
 ARG UID
 RUN groupmod -g $GID www-data \
