@@ -21,10 +21,24 @@ ENV no_proxy $NO_PROXY
 RUN apt-get update
 
 # Essential install
-RUN apt-get install -y --force-yes apt-transport-https ca-certificates software-properties-common python-software-properties iptables net-tools telnet curl wget htop supervisor unzip xz-utils nano vim
+RUN apt-get install -qqy apt-transport-https ca-certificates software-properties-common python-software-properties iptables net-tools telnet curl wget htop supervisor unzip xz-utils nano vim
+
+# Locale
+RUN apt-get install -qqy locales
+RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen \
+    && locale-gen \
+    && dpkg-reconfigure locales
+ENV LANGUAGE en_US:en
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+ENV LC_CTYPE en_US.UTF-8
+RUN echo $TZ > /etc/timezone \
+    && dpkg-reconfigure -f noninteractive tzdata
+RUN locale \
+    && date
 
 # Nginx install
-RUN apt-get install -y --force-yes nginx
+RUN apt-get install -qqy nginx
 ARG GID
 ARG UID
 RUN groupmod -g $GID www-data \
