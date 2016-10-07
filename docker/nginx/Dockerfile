@@ -17,7 +17,7 @@ ENV no_proxy $NO_PROXY
 RUN apt-get update
 
 # Essential install
-RUN apt-get install -y --force-yes net-tools telnet wget htop supervisor unzip xz-utils nano vim
+RUN apt-get install -y --force-yes apt-transport-https ca-certificates iptables net-tools telnet curl wget htop supervisor unzip xz-utils nano vim
 
 # Nginx install
 RUN apt-get install -y --force-yes nginx
