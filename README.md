@@ -17,7 +17,7 @@ npm run dev:serve  # [dev]  watch & serve with browser-sync
 **Dev:**
 
 Create *dc.dev.yml*:
-```
+``` yaml
 version: '2'
 
 services:
