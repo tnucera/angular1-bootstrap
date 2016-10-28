@@ -37,19 +37,23 @@ module.exports = (function () {
         nodeWatch(['src'], function (filename) {
             var startDate = moment();
 
-            logger.logWithTime(filename);
-
             if (/vendor\.scss$/.test(filename)) {
+                logger.logWithTime(filename);
+
                 // vendor.scss
                 actions.cssVendor(function () {
                     callback(startDate)
                 });
             } else if (/\.scss$/.test(filename)) {
+                logger.logWithTime(filename);
+
                 // *.scss without vendor.scss
                 actions.cssIndex(function () {
                     callback(startDate)
                 });
             } else if (/\.js$/.test(filename) || /\.html$/.test(filename)) {
+                logger.logWithTime(filename);
+
                 // *.js or *.html
                 actions.inject(function () {
                     callback(startDate)
