@@ -28,7 +28,7 @@ services:
     build:
       args:
         GID: 1000 # use linux 'id' command to check this value
-        UID: 1000 # use linux id command to check this value
+        UID: 1000 # use linux 'id' command to check this value
         TZ: Europe/Paris
         PROXY: null
         NO_PROXY: null
