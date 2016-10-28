@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: docker/nginx/Dockerfile
       args:
-        GID: 1001
-        UID: 1001
+        GID: 1000
+        UID: 1000
         TZ: Europe/Paris
         PROXY: null
         NO_PROXY: null
