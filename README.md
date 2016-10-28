@@ -45,7 +45,9 @@ docker exec -it -u www-data angular1bootstrap_nginx_1 bash
 npm install
 npm run build
 ```
+
 Go to http://localhost:20000 (nginx)
+
 Go to http://localhost:20001 (browser-sync with npm run dev:serve)
 
 ----------
