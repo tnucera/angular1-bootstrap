@@ -25,10 +25,18 @@ services:
     extends:
       file: dc.common.yml
       service: nginx
+    build:
+      args:
+        GID: 1000 # use linux 'id' command to check this value
+        UID: 1000 # use linux id command to check this value
+        TZ: Europe/Paris
+        PROXY: null
+        NO_PROXY: null
     volumes:
       - .:/var/www
     ports:
-      - '20001:8080'
+      - '20000:8080'
+      - '20001:3000'
 ```
 Run these commands:
 ```
@@ -37,7 +45,8 @@ docker exec -it -u www-data angular1bootstrap_nginx_1 bash
 npm install
 npm run build
 ```
-Go to http://localhost:20001
+Go to http://localhost:20000 (nginx)
+Go to http://localhost:20001 (browser-sync with npm run dev:serve)
 
 ----------
 
